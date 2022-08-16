@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Laravel Docs</title>
+</head>
+<body>
+    <nav id="navbar">
+        <header class="logo-title"><img src="https://laravel.com/img/logomark.min.svg" alt="Laravel">  Laravel</header>
+        <ul>
+            <li><a href="#Prologue" class="nav-link">Prologue</a></li>
+            <li><a href="#Getting_Started" class="nav-link">Getting Started</a></li>
+            <li><a href="#Architecture_Concepts" class="nav-link">Architecture Concepts</a></li>
+            <li><a href="#The_Basics" class="nav-link">The Basics</a></li>
+            <li><a href="#Diggin_Deeper" class="nav-link">Digging Deeper</a></li>
+            <li><a href="#Security" class="nav-link">Security</a></li>
+            <li><a href="#Database" class="nav-link">Database</a></li>
+            <li><a href="#Eloquent_ORM" class="nav-link">Eloquent ORM</a></li>
+            <li><a href="#Testing" class="nav-link">Testing</a></li>
+        </ul>
+    </nav>
+    <main id="main-doc">
+        <section class="main-section" id="Prologue">
+            <header>Prologue</header>
+            <h2><span># </span>Versioning Scheme</h2>
+            <p>Laravel and its other first-party packages follow Semantic Versioning. Major framework releases are released every year 
+                (~February), while minor and patch releases may be released as often as every week. Minor and patch releases should never 
+                contain breaking changes.
+            </p>
+            <p>When referencing the Laravel framework or its components from your application or package, you should always use a version 
+                constraint such as <span class="code">^9.0</span>, since major releases of Laravel do include breaking changes. However, we strive to always ensure 
+                you may update to a new major release in one day or less.
+            </p>
+            <h2><span># </span>Laravel 9</h2>
+            <p>As you may know, Laravel transitioned to yearly releases with the release of Laravel 8. Previously, major versions were released
+                 every 6 months. This transition is intended to ease the maintenance burden on the community and challenge our development team
+                 to ship amazing, powerful new features without introducing breaking changes. Therefore, we have shipped a variety of robust 
+                 features to Laravel 8 without breaking backwards compatibility, such as parallel testing support, improved Breeze starter kits,
+                 HTTP client improvements, and even new Eloquent relationship types such as "has one of many".
+            </p>
+        </section>
+        <section class="main-section" id="Getting_Started">
+            <header>Getting Started</header>
+            <h2><span># </span>Meet Laravel</h2>
+            <p>
+                Laravel is a web application framework with expressive, elegant syntax. A web framework provides a structure and starting point 
+                for creating your application, allowing you to focus on creating something amazing while we sweat the details.
+            </p>
+            <p>
+                Laravel strives to provide an amazing developer experience while providing powerful features such as thorough dependency injection, 
+                an expressive database abstraction layer, queues and scheduled jobs, unit and integration testing, and more.
+            </p>
+            <p>
+                Whether you are new to PHP web frameworks or have years of experience, Laravel is a framework that can grow with you. We'll 
+                help you take your first steps as a web developer or give you a boost as you take your expertise to the next level. We can't 
+                wait to see what you build.
+            </p>
+            <h2><span># </span>Why Laravel?</h2>
+            <p>
+                There are a variety of tools and frameworks available to you when building a web application. However, we believe Laravel is 
+                the best choice for building modern, full-stack web applications.
+            </p>
+            <h3 class="subtitle">A Scalable Framework</h3>
+            <p>
+                Laravel is incredibly scalable. Thanks to the scaling-friendly nature of PHP and Laravel's built-in support for fast, 
+                distributed cache systems like Redis, horizontal scaling with Laravel is a breeze. In fact, Laravel applications have been 
+                easily scaled to handle hundreds of millions of requests per month.
+            </p>
+            <h2><span># </span>Your First Laravel Project</h2>
+            <p>
+                Before creating your first Laravel project, you should ensure that your local machine has PHP and Composer installed. If you 
+                are developing on macOS, PHP and Composer can be installed via Homebrew. In addition, we recommend installing Node and NPM.
+            </p>
+            <p>
+                After you have installed PHP and Composer, you may create a new Laravel project via the Composer <span class="code">create-project</span> command: <br>
+                <code>
+                    composer create-project laravel/laravel example-app
+                </code>
+            </p>
+            <p>
+                After the project has been created, start Laravel's local development server using the Laravel's Artisan CLI serve command: <br>
+                <code>
+                    php artisan serve
+                </code>
+            </p>
+            <p>
+                Once you have started the Artisan development server, your application will be accessible in your web browser at 
+                <span class="code">http://localhost:8000</span>. Next, you're ready to start taking your next steps into the Laravel ecosystem. Of course, 
+                you may also want to configure a database.
+            </p>
+        </section>
+        <section class="main-section" id="Architecture_Concepts">
+            <header>Architecture Concepts</header>
+            <h2><span>#</span> Introduction</h2>
+            <p>
+                When using any tool in the "real world", you feel more confident if you understand how that tool works. Application development 
+                is no different. When you understand how your development tools function, you feel more comfortable and confident using them.
+            </p>
+            <p>
+                The goal of this document is to give you a good, high-level overview of how the Laravel framework works. By getting to know the 
+                overall framework better, everything feels less "magical" and you will be more confident building your applications. If you 
+                don't understand all of the terms right away, don't lose heart! Just try to get a basic grasp of what is going on, and your 
+                knowledge will grow as you explore other sections of the documentation.
+            </p>
+            <h2><span># </span>Lifecycle Overview</h2>
+                <ul class="list-info">
+                    <li>
+                        <h3><span># </span>First Step</h3>
+                        <p>
+                            The entry point for all requests to a Laravel application is the <span class="code">public/index.php</span> file. 
+                            All requests are directed to this file by your web server (Apache / Nginx) configuration. The <span class="code">index.php</span> 
+                            file doesn't contain much code. Rather, it is a starting point for loading the rest of the framework.
+                        </p>
+                        <p>
+                            The <span class="code">index.php</span> file loads the Composer generated autoloader definition, and then retrieves an instance of the 
+                            Laravel application from <span class="code">bootstrap/app.php</span>. The first action taken by Laravel itself is to create an instance 
+                            of the application / service container.
+                        </p>
+                    </li>
+                    <li>
+                        <h3><span># </span>HTTP / Console Kernels</h3>
+                        <p>
+                            Next, the incoming request is sent to either the HTTP kernel or the console kernel, depending on the type of request that is 
+                            entering the application. These two kernels serve as the central location that all requests flow through. For now, let's just 
+                            focus on the HTTP kernel, which is located in <span class="code">app/Http/Kernel.php</span>
+                        </p>
+                        <p>
+                            The HTTP kernel extends the <span class="code">Illuminate\Foundation\Http\Kernel</span> class, which defines an array of 
+                            bootstrappers that will be run before the request is executed. These bootstrappers configure error handling, 
+                            configure logging, detect the application environment, and perform other tasks that need to be done before the 
+                            request is actually handled. Typically, these classes handle internal Laravel configuration that you do not need 
+                            to worry about.
+                        </p>
+                    </li>
+                </ul>
+        </section>
+        <section class="main-section" id="The_Basics">
+            <header>The Basics</header>
+            <h2><span># </span>CSRF Protection</h2>
+            <p>
+                Cross-site request forgeries are a type of malicious exploit whereby unauthorized commands are performed on behalf of an 
+                authenticated user. Thankfully, Laravel makes it easy to protect your application from cross-site request forgery (CSRF) 
+                attacks.
+            </p>
+            <p>
+                In case you're not familiar with cross-site request forgeries, let's discuss an example of how this vulnerability can be 
+                exploited. Imagine your application has a <span class="code">/user/email</span> route that accepts a <span>POST</span> request to change the 
+                authenticated user's email address. Most likely, this route expects an <span class="code">email</span> input field to contain the email 
+                address the user would like to begin using.
+            </p>
+            <code>
+                form action="https://your-application.com/user/email" method="POST"
+                    input type="email" value="malicious-email@example.com"
+                /form
+                script
+                    document.forms[0].submit();
+                script
+            </code>
+            <h2><span># </span>Preventing CSRF Request</h2>
+            <p>
+                Laravel automatically generates a CSRF "token" for each active user session managed by the application. This token is used to 
+                verify that the authenticated user is the person actually making the requests to the application. Since this token is stored in 
+                the user's session and changes each time the session is regenerated, a malicious application is unable to access it.
+            </p>
+            <p>
+                The current session's CSRF token can be accessed via the request's session or via the <span class="code">csrf_token</span> helper function:
+            </p>
+            <code>
+                use Illuminate\Http\Request;
+ 
+                Route::get('/token', function (Request $request) {
+                    $token = $request->session()->token();
+ 
+                    $token = csrf_token();
+ 
+                // ...
+                });
+            </code>
+        </section>
+        <section class="main-section" id="Diggin_Deeper">
+            <header>Digging Deeper</header>
+            <h2><span># </span>Artisan Console</h2>
+            <p>
+                Artisan is the command line interface included with Laravel. Artisan exists at the root of your application as the <span class="code">artisan</span> 
+                script and provides a number of helpful commands that can assist you while you build your application. To view a <span class="code">list</span> of all 
+                available Artisan commands, you may use the list command:
+            </p>
+            <code>
+                php artisan list
+            </code>
+            <p>
+                Every command also includes a "help" screen which displays and describes the command's available arguments and options. 
+                To view a help screen, precede the name of the command with <span class="code">help</span>:
+            </p>
+            <code>
+                php artisan help migrate
+            </code>
+            <ul class="list-info">
+                <li>
+                    <h3><span># </span>Laravel Sail</h3>
+                    <p>
+                        If you are using Laravel Sail as your local development environment, remember to use the sail command line to invoke 
+                        Artisan commands. Sail will execute your Artisan commands within your application's Docker containers:
+                    </p>
+                    <code>
+                        ./vendor/bin/sail artisan list
+                    </code>
+                </li>
+                <li>
+                    <h3><span># </span>Tinker</h3>
+                    <p>All Laravel applications include Tinker by default. However, you may install Tinker using Composer if you have 
+                        previously removed it from your application:
+                    </p>
+                    <code>
+                        composer require laravel/tinker
+                    </code>
+                    <p>
+                        Tinker allows you to interact with your entire Laravel application on the command line, including your Eloquent 
+                        models, jobs, events, and more. To enter the Tinker environment, run the <span class="code">tinker</span> Artisan command:
+                    </p>
+                    <code>
+                        php artisan tinker
+                    </code>
+                </li>
+            </ul>
+        </section>
+        <section class="main-section" id="Security">
+            <header>Security</header>
+            <h2><span>#</span> Introduction</h2>
+            <p>
+                Many web applications provide a way for their users to authenticate with the application and "login". Implementing this 
+                feature in web applications can be a complex and potentially risky endeavor. For this reason, Laravel strives to give you 
+                the tools you need to implement authentication quickly, securely, and easily.
+            </p>
+            <p>
+                At its core, Laravel's authentication facilities are made up of "guards" and "providers". Guards define how users are 
+                authenticated for each request. For example, Laravel ships with a session guard which maintains state using session 
+                storage and cookies.
+            </p>
+            <p>
+                Providers define how users are retrieved from your persistent storage. Laravel ships with support for retrieving users 
+                using Eloquent and the database query builder. However, you are free to define additional providers as needed for your 
+                application.
+            </p>
+            <p>
+                Your application's authentication configuration file is located at <span class="code">config/auth.php</span>. This file contains several 
+                well-documented options for tweaking the behavior of Laravel's authentication services.
+            </p>
+        </section>
+        <section class="main-section" id="Database">
+            <header>Database</header>
+            <h2><span># </span>Introduction</h2>
+            <p>
+                Almost every modern web application interacts with a database. Laravel makes interacting with databases extremely simple 
+                across a variety of supported databases using raw SQL, a fluent query builder, and the Eloquent ORM. Currently, Laravel 
+                provides first-party support for five databases:
+            </p>
+            <ul class="list-data">
+                <li><span>MariaDB 10.3+</span></li>
+                <li><span>MySQL 5.7+</span></li>
+                <li><span>PostgreSQL 10.0+</span></li>
+                <li><span>SQLite 3.8.8+</span></li>
+                <li><span>SQL Server 2017+</span></li>
+            </ul>
+        </section>
+        <section class="main-section" id="Eloquent_ORM">
+            <header>Eloquent ORM</header>
+            <h2><span># </span>Introduction</h2>
+            <p>
+                Laravel includes Eloquent, an object-relational mapper (ORM) that makes it enjoyable to interact with your database. 
+                When using Eloquent, each database table has a corresponding "Model" that is used to interact with that table. In addition to 
+                retrieving records from the database table, Eloquent models allow you to insert, update, and delete records from the table as 
+                well.
+            </p>
+        </section>
+        <section class="main-section" id="Testing">
+            <header>Testing</header>
+            <h2><span># </span>Introduction</h2>
+            <p>
+                Laravel is built with testing in mind. In fact, support for testing with PHPUnit is included out of the box and a <span class="code">phpunit.xml</span> 
+                file is already set up for your application. The framework also ships with convenient helper methods that allow you to 
+                expressively test your applications.
+            </p>
+            <p>
+                By default, your application's tests directory contains two directories: Feature and Unit. Unit tests are tests that focus on a 
+                very small, isolated portion of your code. In fact, most unit tests probably focus on a single method. Tests within your "Unit" 
+                test directory do not boot your Laravel application and therefore are unable to access your application's database or other 
+                framework services.
+            </p>
+        </section>
+    </main>
+</body>
+</html>
